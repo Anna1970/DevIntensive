@@ -4,14 +4,21 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Size -->
+    <dimen name="size_smaller_16">16dp</dimen>
     <dimen name="size_small_24">24dp</dimen>
+    <dimen name="size_ middle_32">32dp</dimen>
     <dimen name="size_medium_56">56dp</dimen>
+    <dimen name="size_medial_64">64dp</dimen>
     <dimen name="size_large_72">72dp</dimen>
+    <dimen name="size_lager_80">80dp</dimen>
+    <dimen name="size_lagest_96">96dp</dimen>
+    <dimen name="size_greater_104">104dp</dimen>
 
     <!-- Spaces -->
     <dimen name="spacing_small_8">8dp</dimen>
     <dimen name="spacing_medial_16">16dp</dimen>
     <dimen name="spacing_medium_24">24dp</dimen>
+    <dimen name="spacing_ middle_48">48dp</dimen>
     <dimen name="spacing_large_56">56dp</dimen>
     <dimen name="spacing_larger_72">72dp</dimen>
 
