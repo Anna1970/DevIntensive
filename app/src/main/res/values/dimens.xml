@@ -30,7 +30,7 @@
     <!--Font sizes-->
     <dimen name="font_lagest_22">22sp</dimen>
     <dimen name="font_lager_18">18sp</dimen>
-    <dimen name="font_normal_15">15sp</dimen>
+    <dimen name="font_normal_15">16sp</dimen>
     <dimen name="font_small_12">12sp</dimen>
 
 </resources>
