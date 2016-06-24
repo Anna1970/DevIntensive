@@ -5,7 +5,102 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/color_accent</item>
+    </style>
+
+    <style name="width_height">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="icon">
+        <item name="android:layout_width">@dimen/size_small_24</item>
+        <item name="android:layout_height">@dimen/size_small_24</item>
+    </style>
+
+    <style name="icon.left" parent="icon">
+        <item name="android:gravity">top|left</item>
+        <item name="android:layout_marginLeft">@dimen/spacing_medial_16</item>
+        <item name="android:layout_marginTop">@dimen/spacing_medium_24</item>
+    </style>
+
+    <style name="icon.right" parent="icon">
+        <item name="android:gravity">top|right</item>
+        <item name="android:layout_marginTop">@dimen/spacing_medium_24</item>
+        <item name="android:layout_marginRight">@dimen/size_middle_32</item>
+    </style>
+
+    <style name="edit_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/grey</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <style name="liner_layout_top">
+        <item name="android:paddingTop">@dimen/spacing_half_normal_size_28</item>
+        <item name="android:paddingBottom">@dimen/spacing_half_normal_size_28</item>
+        <item name="android:paddingLeft">@dimen/spacing_medial_16</item>
+        <item name="android:paddingRight">@dimen/spacing_medial_16</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/size_greater_112</item>
+        <item name="android:background">@color/grey</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="liner_layout_inside">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="liner_layout_inside.side" parent="liner_layout_inside">
+        <item name="android:layout_weight">0.25</item>
+    </style>
+
+    <style name="liner_layout_inside.center" parent="liner_layout_inside">
+        <item name="android:layout_weight">0.5</item>
+    </style>
+
+    <style name="view_top_vertical">
+        <item name="android:layout_width">@dimen/size_line_2</item>
+        <item name="android:layout_height">@dimen/size_greater_104</item>
+        <item name="android:background">@color/grey_light</item>
+    </style>
+
+    <style name="text_view_top">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <style name="liner_layout_list">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/spacing_small_8</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_small_8</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="liner_layout_list_center">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/size_large_72</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginLeft">@dimen/size_middle_32</item>
+        <item name="android:layout_marginRight">@dimen/size_smaller_16</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="view_list">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/size_line_2</item>
+        <item name="android:background">@color/grey_light</item>
+        <item name="android:layout_marginLeft">@dimen/size_large_72</item>
     </style>
 
 </resources>
