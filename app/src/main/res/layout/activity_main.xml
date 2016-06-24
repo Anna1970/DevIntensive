@@ -1,17 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
 
-    <TextView
-        android:text="Hello World!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-</RelativeLayout>
+    style="@style/width_height"
+
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="ui.activities.MainActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/liner_layout_top">
+
+        <LinearLayout
+            style="@style/liner_layout_inside.side">
+
+            <TextView
+                android:id="@+id/reiting"
+                style="@style/text_view_top"
+                android:text="5"/>
+            <TextView
+                style="@style/text_view_top"
+                android:text="Рейтинг"/>
+
+        </LinearLayout>
+
+        <View
+            style="@style/view_top_vertical"/>
+
+        <LinearLayout
+            style="@style/liner_layout_inside.center">
+
+            <TextView
+                android:id="@+id/strings_count"
+                style="@style/text_view_top"
+                android:text="25000"/>
+            <TextView
+                style="@style/text_view_top"
+                android:text="Написано строк кода"/>
+
+        </LinearLayout>
+
+        <View
+            style="@style/view_top_vertical"/>
+
+        <LinearLayout
+            style="@style/liner_layout_inside.side">
+
+            <TextView
+                android:id="@+id/projects_count"
+                style="@style/text_view_top"
+                android:text="5"/>
+            <TextView
+                style="@style/text_view_top"
+                android:text="Проектов"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        style="@style/width_height">
+        <LinearLayout
+            style="@style/width_height"
+            android:orientation="vertical">
+            <LinearLayout
+                style="@style/liner_layout_list">
+
+                <ImageView
+                    style="@style/icon.left"
+                    android:src="@drawable/ic_call_24dp"/>
+                <LinearLayout
+                    style="@style/liner_layout_list_center">
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/width_height">
+                        <EditText
+                            style="@style/edit_text"
+                            android:id="@+id/phone"
+                            android:inputType="phone"
+                            android:hint="Мобильный телефон" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+                <ImageView
+                    style="@style/icon.right"
+                    android:src="@drawable/ic_phone_in_talk_24dp"/>
+
+            </LinearLayout>
+
+            <View
+                style="@style/view_list"/>
+
+            <LinearLayout
+                style="@style/liner_layout_list">
+
+                <ImageView
+                    style="@style/icon.left"
+                    android:src="@drawable/ic_email_24dp"/>
+                <LinearLayout
+                    style="@style/liner_layout_list_center">
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/width_height">
+                        <EditText
+                            style="@style/edit_text"
+                            android:id="@+id/e_mail"
+                            android:inputType="textEmailAddress"
+                            android:hint="E-mail"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+                <ImageView
+                    style="@style/icon.right"
+                    android:src="@drawable/ic_send_24dp"/>
+
+            </LinearLayout>
+            <View
+                style="@style/view_list"/>
+
+            <LinearLayout
+                style="@style/liner_layout_list">
+
+                <ImageView
+                    style="@style/icon.left"
+                    android:src="@drawable/vk"/>
+                <LinearLayout
+                    style="@style/liner_layout_list_center">
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/width_height">
+                        <EditText
+                            style="@style/edit_text"
+                            android:id="@+id/vk"
+                            android:inputType="text"
+                            android:hint="Профиль в Vk"/>
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+                <ImageView
+                    style="@style/icon.right"
+                    android:src="@drawable/ic_visibility_24dp"/>
+
+            </LinearLayout>
+            <View
+                style="@style/view_list"/>
+
+            <LinearLayout
+                style="@style/liner_layout_list">
+
+                <ImageView
+                    style="@style/icon.left"
+                    android:src="@drawable/github_box"/>
+                <LinearLayout
+                    style="@style/liner_layout_list_center">
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/width_height">
+                        <EditText
+                            style="@style/edit_text"
+                            android:id="@+id/git"
+                            android:inputType="text"
+                            android:hint="Репозиторий"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+                <ImageView
+                    style="@style/icon.right"
+                    android:src="@drawable/ic_visibility_24dp"/>
+            </LinearLayout>
+            <View
+                style="@style/view_list"/>
+
+            <LinearLayout
+                style="@style/liner_layout_list">
+
+                <ImageView
+                    style="@style/icon.left"
+                    android:src="@drawable/ic_account_circle_24dp"/>
+                <LinearLayout
+                    style="@style/liner_layout_list_center">
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/width_height">
+                        <EditText
+                            style="@style/edit_text"
+                            android:id="@+id/about"
+                            android:inputType="text"
+                            android:hint="О себе"/>
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>
