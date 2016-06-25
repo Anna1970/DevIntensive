@@ -9,61 +9,63 @@
     tools:context="ui.activities.MainActivity"
     android:orientation="vertical">
 
-    <LinearLayout
-        style="@style/liner_layout_top">
-
-        <LinearLayout
-            style="@style/liner_layout_inside.side">
-
-            <TextView
-                android:id="@+id/reiting"
-                style="@style/text_view_top"
-                android:text="5"/>
-            <TextView
-                style="@style/text_view_top"
-                android:text="Рейтинг"/>
-
-        </LinearLayout>
-
-        <View
-            style="@style/view_top_vertical"/>
-
-        <LinearLayout
-            style="@style/liner_layout_inside.center">
-
-            <TextView
-                android:id="@+id/strings_count"
-                style="@style/text_view_top"
-                android:text="25000" />
-            <TextView
-                style="@style/text_view_top"
-                android:text="Написано строк кода"/>
-
-        </LinearLayout>
-
-        <View
-            style="@style/view_top_vertical"/>
-
-        <LinearLayout
-            style="@style/liner_layout_inside.side">
-
-            <TextView
-                android:id="@+id/projects_count"
-                style="@style/text_view_top"
-                android:text="5"/>
-            <TextView
-                style="@style/text_view_top"
-                android:text="Проектов"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
     <android.support.v4.widget.NestedScrollView
         style="@style/width_height">
         <LinearLayout
             style="@style/width_height"
             android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/liner_layout_top">
+
+                <LinearLayout
+                    style="@style/liner_layout_inside.side">
+
+                    <TextView
+                        android:id="@+id/reiting"
+                        style="@style/text_view_top.values"
+                        android:text="5"/>
+                    <TextView
+                        style="@style/text_view_top"
+                        android:text="Рейтинг"/>
+
+                </LinearLayout>
+
+                <View
+                    style="@style/view_top_vertical"/>
+
+                <LinearLayout
+                    style="@style/liner_layout_inside.center">
+
+                    <TextView
+                        android:id="@+id/strings_count"
+                        style="@style/text_view_top.values"
+                        android:text="25000" />
+                    <TextView
+                        style="@style/text_view_top"
+                        android:text="Написано строк кода"/>
+
+                </LinearLayout>
+
+                <View
+                    style="@style/view_top_vertical"/>
+
+                <LinearLayout
+                    style="@style/liner_layout_inside.side">
+
+                    <TextView
+                        android:id="@+id/projects_count"
+                        style="@style/text_view_top.values"
+                        android:text="5"/>
+                    <TextView
+                        style="@style/text_view_top"
+                        android:text="Проектов"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
             <LinearLayout
                 style="@style/liner_layout_list">
 
@@ -174,17 +176,20 @@
                     style="@style/icon.left"
                     android:src="@drawable/ic_account_circle_24dp"/>
                 <LinearLayout
-                    style="@style/liner_layout_list_center">
+                    style="@style/liner_layout_list_center"
+                    android:layout_height="wrap_content">
                     <android.support.design.widget.TextInputLayout
                         style="@style/width_height">
                         <EditText
                             style="@style/edit_text"
                             android:id="@+id/about"
-                            android:inputType="text"
+                            android:inputType="textMultiLine"
                             android:hint="О себе"/>
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>
+            <View
+                style="@style/view_list"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

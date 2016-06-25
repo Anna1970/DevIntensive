@@ -76,6 +76,11 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="text_view_top.values">
+        <item name="android:textSize">@dimen/font_lagest_22</item>
     </style>
 
     <style name="liner_layout_list">
