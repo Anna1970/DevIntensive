@@ -16,7 +16,6 @@
     <dimen name="size_greater_112">112dp</dimen>
     <dimen name="size_line_2">2dp</dimen>
 
-
     <!-- Spaces -->
     <dimen name="spacing_small_8">8dp</dimen>
     <dimen name="spacing_medial_16">16dp</dimen>
@@ -32,5 +31,10 @@
     <dimen name="font_lager_18">18sp</dimen>
     <dimen name="font_normal_15">16sp</dimen>
     <dimen name="font_small_12">12sp</dimen>
+
+    <!--User profile-->
+    <dimen name="profile_imagw_size">256dp</dimen>
+
+    <dimen name="fab_right_space">8dp</dimen>
 
 </resources>
