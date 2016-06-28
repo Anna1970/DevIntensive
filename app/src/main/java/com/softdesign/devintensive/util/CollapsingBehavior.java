@@ -43,7 +43,7 @@ public class CollapsingBehavior extends CoordinatorLayout.Behavior<LinearLayout>
         if (depY <= 128) {
             child.setPadding(child.getPaddingLeft(), 0, child.getPaddingRight(), 0);
         } else {
-            child.setPadding(child.getPaddingLeft(), 56, child.getPaddingRight(), 56);
+            child.setPadding(child.getPaddingLeft(), 28, child.getPaddingRight(), 28);
         }
 
         return true;
