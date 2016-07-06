@@ -2,19 +2,21 @@ package com.softdesign.devintensive.util;
 
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.view.ViewGroup;
 
-public class CollapsingBehavior extends CoordinatorLayout.Behavior<LinearLayout> {
+import com.softdesign.devintensive.R;
+
+public class CollapsingBehavior <V extends  View> extends CoordinatorLayout.Behavior<V> {
 
     private Context mContext;
+    private int mBottomPadding, mTopPadding;
 
     public CollapsingBehavior(){
 
@@ -26,27 +28,82 @@ public class CollapsingBehavior extends CoordinatorLayout.Behavior<LinearLayout>
     }
 
     @Override
-    public boolean layoutDependsOn(CoordinatorLayout parent, LinearLayout child, View dependency) {
-        return  dependency instanceof NestedScrollView;
+    public Parcelable onSaveInstanceState(CoordinatorLayout parent, V child) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("superState",super.onSaveInstanceState(parent,child));
+        bundle.putInt("mBottomPadding",this.mBottomPadding);
+        bundle.putInt("mTopPadding",this.mTopPadding);
+        return bundle;
     }
 
     @Override
-    public boolean onDependentViewChanged(CoordinatorLayout parent, LinearLayout child, View dependency) {
-        int tempHeight = child.getHeight();
-        float depY = dependency.getY()-228;
-
-        if (depY >= 128 && depY <=224){
-            tempHeight = (int)(depY/3);
+    public void onRestoreInstanceState(CoordinatorLayout parent, V child, Parcelable state) {
+        if (state instanceof Bundle){
+            Bundle bundle = (Bundle) state;
+            this.mBottomPadding = bundle.getInt("mBottomPadding");
+            this.mTopPadding = bundle.getInt("mTopPadding");
         }
-        dependency.setPadding(dependency.getPaddingLeft(),tempHeight,dependency.getPaddingRight(),dependency.getPaddingBottom());
-        child.setY(dependency.getY());
-        if (depY <= 128) {
-            child.setPadding(child.getPaddingLeft(), 0, child.getPaddingRight(), 0);
+        super.onRestoreInstanceState(parent, child, state);
+    }
+
+    @Override
+    public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
+        return  dependency instanceof AppBarLayout;
+    }
+
+    @Override
+    public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
+        ViewGroup.LayoutParams layoutParams = child.getLayoutParams();
+
+        /*Считываем текущее значение паддингов*/
+        int t = child.getPaddingTop(),
+            b = child.getPaddingBottom();
+
+        if (t > 0) {mTopPadding = t;}
+        if (b > 0) {mBottomPadding = b;}
+
+        if (dependency.getY() + dependency.getHeight() <= getStatusBarHeight()+getActionBarSize()) {
+
+            child.setPadding(child.getPaddingLeft(),0,child.getPaddingRight(),0);
+
         } else {
-            child.setPadding(child.getPaddingLeft(), 28, child.getPaddingRight(), 28);
+
+            child.setPadding(child.getPaddingLeft(),mTopPadding,child.getPaddingRight(),mBottomPadding);
+
+        }
+
+        /*Устанавливаем новую высоту child*/
+        layoutParams.height = layoutParams.height + child.getPaddingTop() - t + child.getPaddingBottom() - b;
+
+        child.setLayoutParams(layoutParams);
+        child.setTranslationY(dependency.getY() + dependency.getHeight());
+
+        /*Устанавливаем новый паддинг для NestedScroll*/
+        for (int i = 0;i < parent.getChildCount()-1; i++){
+            View view = parent.getChildAt(i);
+            if (view.getId() == R.id.nested_scroll){
+                view.setPadding(view.getPaddingLeft(),layoutParams.height,view.getPaddingRight(),view.getPaddingBottom());
+            }
         }
 
         return true;
     }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = mContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
+
+        if (resourceId > 0) {
+            result = mContext.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    private float getActionBarSize() {
+        final TypedArray styledAttributes = mContext.getTheme().obtainStyledAttributes(new int[]{android.R.attr.actionBarSize});
+        float actionBarSize = styledAttributes.getDimension(0, 0);
+        styledAttributes.recycle();
+        return actionBarSize;
+        }
 
 }

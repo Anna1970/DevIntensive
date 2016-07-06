@@ -15,6 +15,8 @@
     <dimen name="size_greater_104">104dp</dimen>
     <dimen name="size_greater_112">112dp</dimen>
     <dimen name="size_line_2">2dp</dimen>
+    <dimen name="size_line_1">1dp</dimen>
+    <dimen name="auth_button_width_240">240dp</dimen>
 
     <!-- Spaces -->
     <dimen name="spacing_small_8">8dp</dimen>
@@ -22,19 +24,30 @@
     <dimen name="spacing_medium_24">24dp</dimen>
     <dimen name="spacing_medium_32">32dp</dimen>
     <dimen name="spacing_middle_48">48dp</dimen>
-    <dimen name="spacing_half_normal_size_28">28dp</dimen>
+    <dimen name="spacing_normal_size_28">28dp</dimen>
     <dimen name="spacing_large_56">56dp</dimen>
     <dimen name="spacing_larger_72">72dp</dimen>
 
     <!--Font sizes-->
     <dimen name="font_lagest_22">22sp</dimen>
     <dimen name="font_lager_18">18sp</dimen>
-    <dimen name="font_normal_15">16sp</dimen>
+    <dimen name="font_normal_16">16sp</dimen>
+    <dimen name="font_normal_14">14sp</dimen>
     <dimen name="font_small_12">12sp</dimen>
 
     <!--User profile-->
-    <dimen name="profile_imagw_size">256dp</dimen>
+    <dimen name="profile_image_size">256dp</dimen>
+
+    <dimen name="header_height_172">172dp</dimen>
 
     <dimen name="fab_right_space">8dp</dimen>
+    <dimen name="placeholder_photo_size_90">90dp</dimen>
+    <dimen name="font_large_20">20sp</dimen>
+    <dimen name="size_avatar_60">60dp</dimen>
+
+
+    <dimen name="button_corner_radius_2">2dp</dimen>
+    <dimen name="button_elevation_8">8dp</dimen>
+    <dimen name="size_4">4dp</dimen>
 
 </resources>
