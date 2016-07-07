@@ -56,6 +56,7 @@
                 </android.support.design.widget.TextInputLayout>
                  <Button
                      android:id="@+id/auth_button"
+                     android:theme="@style/AppTheme.Button.Red"
                      style="@style/auth_button"
                      android:text="@string/auth_text"/>
                 <TextView
