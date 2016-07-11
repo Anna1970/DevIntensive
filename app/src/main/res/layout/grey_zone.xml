@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/liner_layout_top"
+    android:id="@+id/layout_top_grey"
+    app:layout_behavior=".util.CollapsingBehavior" >
+
+    <LinearLayout
+        style="@style/liner_layout_inside.side">
+
+        <TextView
+            android:id="@+id/rating"
+            style="@style/text_view_top.values"
+            android:text="@string/rating_value"/>
+        <TextView
+            style="@style/text_view_top"
+            android:text="@string/rating_text"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/view_top_vertical"/>
+
+    <LinearLayout
+        style="@style/liner_layout_inside.center">
+
+        <TextView
+            android:id="@+id/strings_count"
+            style="@style/text_view_top.values"
+            android:text="@string/lines_code_value" />
+        <TextView
+            style="@style/text_view_top"
+            android:text="@string/lines_code_text"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/view_top_vertical"/>
+
+    <LinearLayout
+        style="@style/liner_layout_inside.side">
+
+        <TextView
+            android:id="@+id/projects_count"
+            style="@style/text_view_top.values"
+            android:text="@string/project_value"/>
+        <TextView
+            style="@style/text_view_top"
+            android:text="@string/project_text"/>
+
+    </LinearLayout>
+
+</LinearLayout>
