@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/liner_layout_top"
-    android:id="@+id/layout_top_grey"
-    app:layout_behavior=".util.CollapsingBehavior" >
+<app:LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  style="@style/liner_layout_top"
+                  android:id="@+id/layout_top_grey"
+                  app:layout_behavior=".util.CollapsingBehavior">
 
     <LinearLayout
         style="@style/liner_layout_inside.side">
@@ -12,10 +12,10 @@
         <TextView
             android:id="@+id/rating"
             style="@style/text_view_top.values"
-            android:text="@string/rating_value"/>
+            android:text="@string/profile.user_info.rating.dummy"/>
         <TextView
             style="@style/text_view_top"
-            android:text="@string/rating_text"/>
+            android:text="@string/profile.user_info.rating.hint"/>
 
     </LinearLayout>
 
@@ -28,10 +28,10 @@
         <TextView
             android:id="@+id/strings_count"
             style="@style/text_view_top.values"
-            android:text="@string/lines_code_value" />
+            android:text="@string/profile.user_info.code_lines.dummy" />
         <TextView
             style="@style/text_view_top"
-            android:text="@string/lines_code_text"/>
+            android:text="@string/profile.user_info.code_lines.hint"/>
 
     </LinearLayout>
 
@@ -44,11 +44,11 @@
         <TextView
             android:id="@+id/projects_count"
             style="@style/text_view_top.values"
-            android:text="@string/project_value"/>
+            android:text="@string/profile.user_info.project.dummy"/>
         <TextView
             style="@style/text_view_top"
-            android:text="@string/project_text"/>
+            android:text="@string/profile.user_info.project.hint"/>
 
     </LinearLayout>
 
-</LinearLayout>
+</app:LinearLayout>

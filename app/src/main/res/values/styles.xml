@@ -18,7 +18,7 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
     <style name="AppTheme.Button.Red" parent="Base.Widget.AppCompat.Button">
-        <item name="colorButtonNormal">@color/auth_red</item>
+        <item name="colorButtonNormal">@color/color_accent</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -165,9 +165,8 @@
     <style name="auth_layout_main">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@drawable/login_bg</item>
-        <item name="android:gravity">center</item>
-        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@color/grey_background</item>
+
     </style>
 
     <style name="auth_layout_login">
@@ -183,8 +182,6 @@
     </style>
 
     <style name="auth_button">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
     </style>
 
 </resources>

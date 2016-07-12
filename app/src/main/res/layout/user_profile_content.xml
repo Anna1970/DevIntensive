@@ -25,7 +25,7 @@
                             style="@style/edit_text"
                             android:id="@+id/phone"
                             android:inputType="phone"
-                            android:hint="@string/phone_profile"/>
+                            android:hint="@string/profile.phone.hint"/>
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
                 <ImageView
@@ -50,7 +50,7 @@
                             style="@style/edit_text"
                             android:id="@+id/e_mail"
                             android:inputType="textEmailAddress"
-                            android:hint="@string/e_mail"/>
+                            android:hint="@string/profile.mail.hint"/>
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
                 <ImageView
@@ -75,7 +75,7 @@
                             style="@style/edit_text"
                             android:id="@+id/vk"
                             android:inputType="text"
-                            android:hint="@string/vk_profile"/>
+                            android:hint="@string/profile.vk.hint"/>
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
                 <ImageView
@@ -100,7 +100,7 @@
                             style="@style/edit_text"
                             android:id="@+id/git"
                             android:inputType="text"
-                            android:hint="@string/git_profile"/>
+                            android:hint="@string/profile.github.hint"/>
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
                 <ImageView
@@ -126,7 +126,7 @@
                             style="@style/edit_text"
                             android:id="@+id/about"
                             android:inputType="textMultiLine"
-                            android:hint="@string/about_profile"/>
+                            android:hint="@string/profile.bio.hint"/>
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>

@@ -5,7 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -31,6 +31,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.data.managers.DataManager;
@@ -38,6 +39,7 @@ import com.softdesign.devintensive.util.ConstantManager;
 import com.softdesign.devintensive.util.CropSquareTransformation;
 import com.softdesign.devintensive.util.DevTextWatcher;
 import com.softdesign.devintensive.util.Helper;
+import com.softdesign.devintensive.util.RoundedAvatarDrawable;
 import com.softdesign.devintensive.util.ValidationEditText;
 import com.squareup.picasso.Picasso;
 
@@ -50,13 +52,14 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = ConstantManager.TAG_PREFIX + "Main Activity";
-
-    private DataManager mDataManager;
-    private int mCurrentEditMode = 0;
 
     @BindView (R.id.phone) EditText mUserPhone;
     @BindView (R.id.e_mail) EditText mUserMail;
@@ -78,12 +81,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.vk_img) ImageView mVkImg;
     @BindView(R.id.git_img) ImageView mGitImg;
 
-
-    private AppBarLayout.LayoutParams mAppBarParams = null;
-    private File mPhotoFile = null;
-    private Uri mSelectedImage = null;
+    @BindView(R.id.rating) TextView mUserValueRating;
+    @BindView(R.id.strings_count) TextView mUserValueCodeLines;
+    @BindView(R.id.projects_count) TextView mUserValueProjects;
 
     @BindViews({R.id.phone,R.id.e_mail,R.id.vk, R.id.git,R.id.about}) List<EditText> mUserInfoViews;
+    @BindViews({R.id.rating,R.id.strings_count,R.id.projects_count}) List<TextView> mUserValuesViews;
 
     static final ButterKnife.Setter<View, Boolean> Enabled = new ButterKnife.Setter<View, Boolean>(){
         @Override public void set(View view, Boolean value, int index) {
@@ -92,6 +95,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             view.setFocusableInTouchMode(value);
         }
     };
+
+    private DataManager mDataManager;
+    private int mCurrentEditMode = 0;
+    private AppBarLayout.LayoutParams mAppBarParams = null;
+    private File mPhotoFile = null;
+    private Uri mSelectedImage = null;
+
 
     /**
      * Реализация "прослушивателя событий" с помощью Butterknife для некоторых ImageView
@@ -140,10 +150,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mFab.setOnClickListener(this);
         mProfilePlaceholder.setOnClickListener(this);
 
+        mCollapsingToolbar.setTitle(mDataManager.getPreferencesManager().loadUserName().get(0)+" " +
+                                    mDataManager.getPreferencesManager().loadUserName().get(1));
+
         setupToolbar();
         setupDrawer();
 
-        loadUserInfoValue();
+        initUserFields();
+        initUserInfoValue();
+
         Picasso.with(this)
                 .load(mDataManager.getPreferencesManager().loadUserPhoto())
                 .placeholder(R.drawable.user_bg)
@@ -152,11 +167,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         if (savedInstanceState == null) {
             //активити запускается впервые
-
-            //запустить авторизацию - временно
-            Intent authIntent = new Intent(this, AuthActivity.class);
-            startActivity(authIntent);
-
 
         } else {
             //активити уже создавалась
@@ -304,7 +314,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void setupDrawer() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
-        Helper.setupHeaderDrawerImage(this,navigationView, BitmapFactory.decodeResource(getResources(), R.drawable.avatar));
+        TextView userName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_name_txt);
+        userName.setText(mDataManager.getPreferencesManager().loadUserName().get(0)+" "+mDataManager.getPreferencesManager().loadUserName().get(1));
+
+        TextView userEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_email_txt);
+        userEmail.setText(mDataManager.getPreferencesManager().loadUserProfileData().get(1));
+
+        ImageView userAvatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.avatar);
+
+        //Helper.setupHeaderDrawerImage(this,navigationView, BitmapFactory.decodeResource(getResources(), R.drawable.avatar));
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -315,6 +333,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 return false;
             }
         });
+
+        Picasso.with(this)
+                .load(mDataManager.getPreferencesManager().loadUserAvatar())
+                .placeholder(R.drawable.avatar)
+                .transform(new RoundedAvatarDrawable())
+                .into(userAvatar);
     }
 
     /**
@@ -375,7 +399,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 unlockToolbar();
                 mCollapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.white));
 
-                saveUserInfoValue();
+                saveUserFields();
             } else {
                 showToast("Есть неправильно заполненные поля.\nПроверте правильность заполнения и введите валидные данные");
             }
@@ -414,7 +438,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     /**
      * Загружаем сохраненные данные пользователя
      */
-    private void loadUserInfoValue() {
+    private void initUserFields() {
 
         List<String> userData = mDataManager.getPreferencesManager().loadUserProfileData();
         for (int i = 0; i < userData.size(); i++) {
@@ -425,13 +449,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     /**
      * Сохраняем текущие данные пользователя
      */
-    private void saveUserInfoValue() {
+    private void saveUserFields() {
         List<String> userData = new ArrayList<>();
 
         for (EditText userFieldView : mUserInfoViews) {
             userData.add(userFieldView.getText().toString());
         }
         mDataManager.getPreferencesManager().saveUserProfileData(userData);
+    }
+
+    /**
+     * Данные пользователя - рейтинг, проеты, кол-во строк кода
+     */
+    private void initUserInfoValue(){
+        List<String> userData = mDataManager.getPreferencesManager().loadUserProfileValues();
+        for (int i =0; i < userData.size(); i++){
+            mUserValuesViews.get(i).setText(userData.get(i));
+        }
     }
 
     /**
@@ -595,17 +629,80 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
+     * Отправляем фото на сервер
+     */
+    private void uploadPhoto (File photoFile){
+        Call<ResponseBody> call = mDataManager.uploadPhoto(mDataManager.getPreferencesManager().getUserId(),photoFile);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d(TAG," In uploadPhoto on response");
+                if (response.isSuccessful()){
+                    Helper.showSnackbar(mCoordinatorLayout,"Фотография загружена на сервер");
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d(TAG," In uploadPhoto on failure: " + t.getMessage());
+                Helper.showSnackbar(mCoordinatorLayout,"Не удалось загрузить фотографию:\n" + t.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Получает путь к файлу из uri
+     * @param contentUri
+     * @return
+     */
+    public String getPathFromURI(Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            else {
+                return null;
+            }
+        }
+    }
+
+    /**
      * Вставляем выбранное фото
      * @param selectedImage
      */
     private void insertProfileImage(Uri selectedImage) {
         Picasso.with(this)
                 .load(selectedImage)
+                .resize(768,512)
                 .placeholder(R.drawable.user_bg)
                 .transform(new CropSquareTransformation())
                 .into(mProfileImage);
 
-        mDataManager.getPreferencesManager().saveUserPhoto(selectedImage);
+        //если фото изменилось
+        if (!selectedImage.equals(mDataManager.getPreferencesManager().loadUserPhoto())){
+
+            File file = null;
+
+            if (selectedImage.getLastPathSegment().endsWith(".jpeg")){
+                //фото с камеры
+                file = new File(selectedImage.getPath());
+            }
+            else{
+                //из галлереи
+                file = new File(getPathFromURI(selectedImage));
+            }
+
+            if (file != null) {
+                uploadPhoto(file);
+                mDataManager.getPreferencesManager().saveUserPhoto(selectedImage);
+            }
+        }
     }
 
     /**

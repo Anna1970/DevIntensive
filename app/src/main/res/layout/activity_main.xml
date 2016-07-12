@@ -48,7 +48,7 @@
                             style="@style/width_wrap_content_height_wrap_content"
                             android:text="@string/user_profile_placeholder_image"
                             android:textColor="@color/white"
-                            android:fontFamily="@string/auth_font_family"
+                            android:fontFamily="@string/ff_medium"
                             android:layout_centerHorizontal="true"
                             android:layout_above="@+id/photo_placeholder"
                             android:layout_marginBottom="@dimen/spacing_small_8"/>
