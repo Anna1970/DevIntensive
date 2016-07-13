@@ -1,4 +1,9 @@
 <resources>
+
+    <!--Font family-->
+    <string name="ff_medium">sans-serif-medium</string>
+    <string name="ff_regular">sans-serif</string>
+
     <string name="app_name">Анна Назарова</string>
 
     <string name="user_profile_placeholder_image">Изменить фотографию профиля</string>
@@ -8,33 +13,33 @@
     <string name="user_profile.dialog.title">Изменить фотографию профиля</string>
     <string name="user_profile.choose.message">выбирите фото</string>
 
+    <string name="profile.vk.hint">Профиль в Vk</string>
+    <string name="profile.vk.dummy">vk.com</string>
+    <string name="profile.github.hint">Репозиторий</string>
+    <string name="profile.github.dummy">github.com</string>
+    <string name="profile.bio.hint">О себе</string>
+    <string name="profile.bio.dummy">О себе и о себе и все о себе</string>
+    <string name="profile.mail.hint">E-mail</string>
+    <string name="profile.mail.dummy">anna-1804@mail.ru</string>
+    <string name="profile.phone.hint">Мобильный телефон</string>
+    <string name="profile.phone.dummy">+7 903 456-25-48</string>
 
-    <string name="vk_profile">Профиль в Vk</string>
-    <string name="git_profile">Репозиторий</string>
-    <string name="about_profile">О себе</string>
-    <string name="phone_profile">Мобильный телефон</string>
+    <string name="profile.user_info.project.hint">Проектов</string>
+    <string name="profile.user_info.project.dummy">5</string>
+    <string name="profile.user_info.code_lines.hint">Написано строк кода</string>
+    <string name="profile.user_info.code_lines.dummy">25000</string>
+    <string name="profile.user_info.rating.hint">Рейтинг</string>
+    <string name="profile.user_info.rating.dummy">5</string>
 
-    <!--Font family-->
-    <string name="auth_font_family">sans-serif-medium</string>
-    <string name="font_family">sans-serif</string>
-
-    <string name="auth_text">Войти</string>
-    <string name="fogot_password_text">Забыли пароль?</string>
-    <string name="password">Пароль</string>
-    <string name="e_mail">E-mail</string>
-
-    <string name="profile_name">Анна Назарова</string>
-    <string name="profile_email">mymail@mail.ru</string>
-    <string name="project_text">Проектов</string>
-    <string name="project_value">5</string>
-    <string name="lines_code_text">Написано строк кода</string>
-    <string name="lines_code_value">25000</string>
-    <string name="rating_text">Рейтинг</string>
-    <string name="rating_value">5</string>
     <string name="menu_item_my_profile">Мой профиль</string>
     <string name="menu_item_team">Команда</string>
     <string name="menu_item_login">Войти</string>
 
-
+    <!--activity-auth-->
+    <string name="auth.authorization_enter">Войти</string>
+    <string name="auth.remember">Забыли пароль?</string>
+    <string name="auth.password">Пароль</string>
+    <string name="auth.email">Введите e-mail</string>
+    <string name="auth.login">Войти</string>
 
 </resources>

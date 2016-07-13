@@ -10,9 +10,13 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
-public class RoundedAvatarDrawable {
+import com.squareup.picasso.Transformation;
 
-    public static Bitmap getRoundedBitmap(Bitmap bitmap) {
+public class RoundedAvatarDrawable  implements Transformation{
+
+    @Override
+    public Bitmap transform(Bitmap bitmap) {
+
         final Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(output);
 
@@ -34,4 +38,8 @@ public class RoundedAvatarDrawable {
         return output;
     }
 
+    @Override
+    public String key() {
+        return "circle";
+    }
 }
