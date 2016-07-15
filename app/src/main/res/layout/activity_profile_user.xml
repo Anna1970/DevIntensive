@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_coordinator_container"
+    style="@style/width_match_parent_height_wrap_content">
+
+    <android.support.design.widget.AppBarLayout
+        style="@style/width_match_parent_height_wrap_content"
+        android:id="@+id/appbar_layout"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:background="@color/color_primary"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            style="@style/width_match_parent_height_wrap_content"
+            app:contentScrim="@color/color_primary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/user_photo_img"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/profile_image_size"
+                android:scaleType="centerCrop"
+                android:src="@drawable/user_bg"
+                android:fitsSystemWindows="true"/>
+
+            <android.support.v7.widget.Toolbar
+                android:theme="@style/AppTheme.PopupOverlay"
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/ToolBarStyle"
+                android:titleTextColor="@color/white"
+                app:layout_collapseMode="pin"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        style="@style/width_match_parent_height_wrap_content"
+        android:background="@color/grey"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/spacing_normal_size_28"
+        android:paddingBottom="@dimen/spacing_medium_32"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/spacing_medium_32"
+        app:layout_behavior="com.softdesign.devintensive.util.CollapsingBehavior">
+
+        <LinearLayout
+            style="@style/liner_layout_inside.side">
+            <TextView
+                style="@style/text_view_top.values"
+                android:id="@+id/rating"
+                android:fontFamily="@string/ff_medium"
+                android:textSize="@dimen/font_normal_16"/>
+            <TextView
+                style="@style/text_view_top.values"
+                android:text="@string/profile.user_info.rating.hint"
+                android:fontFamily="@string/ff_regular"
+                android:textSize="@dimen/font_normal_14"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/size_line_1"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+
+        <LinearLayout
+            style="@style/liner_layout_inside.center">
+            <TextView
+                style="@style/text_view_top.values"
+                android:id="@+id/strings_count"
+                android:fontFamily="@string/ff_medium"
+                android:textSize="@dimen/font_normal_16"/>
+            <TextView
+                style="@style/text_view_top.values"
+                android:text="@string/profile.user_info.code_lines.hint"
+                android:fontFamily="@string/ff_regular"
+                android:textSize="@dimen/font_normal_14"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/size_line_1"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+
+        <LinearLayout
+            style="@style/liner_layout_inside.side">
+            <TextView
+                style="@style/text_view_top.values"
+                android:id="@+id/projects_count"
+                android:fontFamily="@string/ff_medium"
+                android:textSize="@dimen/font_normal_16"/>
+            <TextView
+                style="@style/text_view_top.values"
+                android:text="@string/profile.user_info.project.hint"
+                android:fontFamily="@string/ff_regular"
+                android:textSize="@dimen/font_normal_14"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include layout="@layout/static_profile_content"/>
+
+</android.support.design.widget.CoordinatorLayout>

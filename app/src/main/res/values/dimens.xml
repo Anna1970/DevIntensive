@@ -29,6 +29,7 @@
     <dimen name="spacing_larger_72">72dp</dimen>
 
     <!--Font sizes-->
+    <dimen name="font_large_24">24sp</dimen>
     <dimen name="font_lagest_22">22sp</dimen>
     <dimen name="font_lager_18">18sp</dimen>
     <dimen name="font_normal_16">16sp</dimen>
@@ -44,7 +45,6 @@
     <dimen name="placeholder_photo_size_90">90dp</dimen>
     <dimen name="font_large_20">20sp</dimen>
     <dimen name="size_avatar_60">60dp</dimen>
-
 
     <dimen name="button_corner_radius_2">2dp</dimen>
     <dimen name="button_elevation_8">8dp</dimen>

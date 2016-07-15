@@ -41,5 +41,6 @@
     <string name="auth.password">Пароль</string>
     <string name="auth.email">Введите e-mail</string>
     <string name="auth.login">Войти</string>
+    <string name="hint_search">Поиск</string>
 
 </resources>

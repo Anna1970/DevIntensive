@@ -46,4 +46,5 @@ public interface ConstantManager {
     int CAMERA_REQUEST_PERMISSION_CODE = 102;
     int PHONE_REQUEST_PERMISSION_CODE = 201;
 
+    String PARCELABLE_KEY = "PARCELABLE_KEY";
 }
