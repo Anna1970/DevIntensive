@@ -9,28 +9,31 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.softdesign.devintensive.R;
-import com.softdesign.devintensive.data.network.res.UserListRes;
+import com.softdesign.devintensive.data.storage.models.UserDTO;
 import com.softdesign.devintensive.ui.views.AspectRatioImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder>{
 
     private Context mContext;
-    private List<UserListRes.UserData> mUsers;
+    private List<UserDTO> mUsers, mUserBackup;
     private UserViewHolder.CustomClickListener mCustomClickListener;
 
-    public UsersAdapter(List<UserListRes.UserData> users, UserViewHolder.CustomClickListener customClickListener){
+    public UsersAdapter(List<UserDTO> users, UserViewHolder.CustomClickListener customClickListener){
         mUsers = users;
+        mUserBackup = new ArrayList<>();
+        mUserBackup.addAll(mUsers);
         this.mCustomClickListener = customClickListener;
     }
 
-    public void setUsers(List<UserListRes.UserData> users){
+    public void setUsers(List<UserDTO> users){
         mUsers = users;
     }
 
-    public List<UserListRes.UserData> getUsers(){
+    public List<UserDTO> getUsers(){
         return mUsers;
     }
 
@@ -43,9 +46,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
     @Override
     public void onBindViewHolder(UsersAdapter.UserViewHolder holder, int position) {
-       UserListRes.UserData user = mUsers.get(position);
+       UserDTO user = mUsers.get(position);
 
-        String photo = user.getPublicInfo().getPhoto();
+        String photo = user.getPhoto();
 
         if (photo != null && !photo.equals("")) {
 
@@ -58,16 +61,16 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
                     .into(holder.userPhoto);
 
             holder.mFullName.setText(user.getFullName());
-            holder.mRating.setText(String.valueOf(user.getProfileValues().getRaiting()));
-            holder.mCodeLines.setText(String.valueOf(user.getProfileValues().getLinesCode()));
-            holder.mProjects.setText(String.valueOf(user.getProfileValues().getProjects()));
+            holder.mRating.setText(String.valueOf(user.getRating()));
+            holder.mCodeLines.setText(String.valueOf(user.getCodeLines()));
+            holder.mProjects.setText(String.valueOf(user.getProjects()));
         }
-        if (user.getPublicInfo().getBio() == null || user.getPublicInfo().getBio().isEmpty()) {
+        if (user.getBio() == null || user.getBio().isEmpty()) {
             holder.mBio.setVisibility(View.GONE);
         }
         else {
             holder.mBio.setVisibility(View.VISIBLE);
-            holder.mBio.setText(user.getPublicInfo().getBio());
+            holder.mBio.setText(user.getBio());
         }
     }
 
@@ -110,5 +113,25 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
             void onUserItemClickListener(int position);
         }
 
+    }
+
+    public void setFilter(String text){
+        if (text.isEmpty()){
+
+            mUsers.clear();
+            mUsers.addAll(mUserBackup);
+
+        } else {
+            List<UserDTO> users = new ArrayList<>();
+            for (UserDTO user : mUsers){
+                if (user.getFullName().toLowerCase().contains(text.toLowerCase())){
+                    users.add(user);
+                }
+            }
+            mUsers.clear();
+            mUsers.addAll(users);
+        }
+
+        notifyDataSetChanged();
     }
 }

@@ -7,7 +7,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +19,7 @@ import android.widget.ImageView;
 
 import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.data.managers.DataManager;
+import com.softdesign.devintensive.data.network.res.User;
 import com.softdesign.devintensive.data.network.res.UserListRes;
 import com.softdesign.devintensive.data.storage.models.UserDTO;
 import com.softdesign.devintensive.ui.adapters.UsersAdapter;
@@ -37,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserListActivity extends BaseActivity  implements SearchView.OnQueryTextListener{
+public class UserListActivity extends BaseActivity  implements android.support.v7.widget.SearchView.OnQueryTextListener{
 
     private static final String TAG = ConstantManager.TAG_PREFIX + " UserListActivity";
     private static final String TAG_FRAGMENT = "networkRequestFragment";
@@ -49,8 +49,6 @@ public class UserListActivity extends BaseActivity  implements SearchView.OnQuer
 
     private DataManager mDataManager;
     private UsersAdapter mUsersAdapter;
-    private List<UserListRes.UserData> mUsers;
-
     private MyFragment mMyFragment;
 
     @Override
@@ -58,32 +56,29 @@ public class UserListActivity extends BaseActivity  implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
 
+        Log.d(TAG, "onCreate");
+
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_coordinator_container);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mNavigationDrawer = (DrawerLayout) findViewById(R.id.navigation_drawer);
         mRecyclerView = (RecyclerView) findViewById(R.id.user_list);
 
-        showProgress();
+        mDataManager = DataManager.getInstance();
 
         mMyFragment = (MyFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT);
         if (mMyFragment == null) {
             mMyFragment = new MyFragment();
             getSupportFragmentManager().beginTransaction().add(mMyFragment,TAG_FRAGMENT).commit();
+            mMyFragment.setData(getUsers());
         }
-
-        mDataManager = DataManager.getInstance();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
         setupToolBar();
         setupDrawer();
+        setupUsersListAdapter(mMyFragment.getData());
 
-        if (savedInstanceState == null){
-            loadUser();
-        } else {
-            setupUsersListAdapter(mMyFragment.getData());
-        }
     }
 
     @Override
@@ -99,15 +94,17 @@ public class UserListActivity extends BaseActivity  implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        mUsersAdapter.setFilter(query);
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        mUsersAdapter.setFilter(newText);
 
-        List<UserListRes.UserData> listUsers = new ArrayList<>();
+        /*List<UserDTO> listUsers = new ArrayList<>();
 
-        for (UserListRes.UserData itemUser : mUsers){
+        for (UserDTO itemUser : mMyFragment.getData()){
             if (itemUser.getFullName().toUpperCase().contains(newText.toUpperCase())){
                 listUsers.add(itemUser);
             }
@@ -115,8 +112,8 @@ public class UserListActivity extends BaseActivity  implements SearchView.OnQuer
 
         mUsersAdapter.setUsers(listUsers);
         mUsersAdapter.notifyDataSetChanged();
-
-        return false;
+*/
+        return true;
     }
 
     @Override
@@ -127,8 +124,17 @@ public class UserListActivity extends BaseActivity  implements SearchView.OnQuer
         return super.onOptionsItemSelected(item);
     }
 
-    private void loadUser() {
-        if (NetworkStatusChecked.isNetworkAvailable(this)) {
+    /*private void loadUsers() {
+
+        mUsersAdapter = new UsersAdapter(mMyFragment.getData(), new UsersAdapter.UserViewHolder.CustomClickListener(){
+            @Override
+            public void onUserItemClickListener(int position) {
+                Helper.showSnackbar(mCoordinatorLayout,"Пользователь " + position);
+            }
+        });
+        mRecyclerView.setAdapter(mUsersAdapter);
+
+        *//*if (NetworkStatusChecked.isNetworkAvailable(this)) {
            // showProgress();
             Call<UserListRes> call = mDataManager.getUserList();
             call.enqueue(new Callback<UserListRes>() {
@@ -153,14 +159,15 @@ public class UserListActivity extends BaseActivity  implements SearchView.OnQuer
             });
         } else {
             Helper.showSnackbar(mCoordinatorLayout,"В данный момент сеть недоступна.");
-        }
-    }
+        }*//*
+    }*/
 
-    private void setupUsersListAdapter(List<UserListRes.UserData> users){
+    private void setupUsersListAdapter(final List<UserDTO> users){
+        showProgress();
         mUsersAdapter = new UsersAdapter(users, new UsersAdapter.UserViewHolder.CustomClickListener() {
         @Override
         public void onUserItemClickListener(int position) {
-                UserDTO userDTO = new UserDTO(mUsersAdapter.getUsers().get(position));
+                UserDTO userDTO = mMyFragment.getData().get(position);
                 Intent profileIntent = new Intent(UserListActivity.this, ProfileUserActivity.class);
                 profileIntent.putExtra(ConstantManager.PARCELABLE_KEY, userDTO);
                 startActivity(profileIntent);
@@ -168,6 +175,43 @@ public class UserListActivity extends BaseActivity  implements SearchView.OnQuer
         });
         mRecyclerView.setAdapter(mUsersAdapter);
         hideProgress();
+    }
+
+    private List<UserDTO> getUsers() {
+        final List<UserDTO> list = new ArrayList<>();
+        if (NetworkStatusChecked.isNetworkAvailable(this)) {
+            showProgress();
+            Call<UserListRes> call = mDataManager.getUserList();
+
+            call.enqueue(new Callback<UserListRes>() {
+                @Override
+                public void onResponse(Call<UserListRes> call, Response<UserListRes> response) {
+                    try {
+                        if (response.code() == 200) {
+                            List<User> users = response.body().getData();
+
+                            for (User user : users) {
+                                list.add(new UserDTO(user));
+                            };
+                            setupUsersListAdapter(list);
+                        }
+
+                    } catch (NullPointerException e) {
+                        Log.e(TAG, "Ошибка: " + e.getMessage());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserListRes> call, Throwable t) {
+                    Log.e(TAG, "Ошибка: " + t.getMessage());
+                    Helper.showSnackbar(mCoordinatorLayout, "Что-то пошло не так");
+                }
+            });
+            hideProgress();
+        } else {
+            Helper.showSnackbar(mCoordinatorLayout,"В данный момент сеть недоступна.");
+        }
+        return list;
     }
 
     private void setupDrawer() {
@@ -213,5 +257,11 @@ public class UserListActivity extends BaseActivity  implements SearchView.OnQuer
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mMyFragment.setData(mMyFragment.getData());
+        super.onDestroy();
     }
 }

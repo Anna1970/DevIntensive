@@ -13,9 +13,9 @@ public class UserListRes {
     private boolean success;
     @SerializedName("data")
     @Expose
-    private List<UserData> data = new ArrayList<UserData>();
+    private List<User> data = new ArrayList<User>();
 
-    public List<UserData> getData() {
+    public List<User> getData() {
         return data;
     }
 

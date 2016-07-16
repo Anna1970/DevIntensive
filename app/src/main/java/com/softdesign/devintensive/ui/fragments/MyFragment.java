@@ -4,12 +4,13 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 
 import com.softdesign.devintensive.data.network.res.UserListRes;
+import com.softdesign.devintensive.data.storage.models.UserDTO;
 
 import java.util.List;
 
 public class MyFragment extends Fragment{
 
-    private List<UserListRes.UserData> mUserList;
+    private List<UserDTO> mUserList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -18,11 +19,11 @@ public class MyFragment extends Fragment{
         setRetainInstance(true);
     }
 
-    public void setData(List<UserListRes.UserData> userData){
+    public void setData(List<UserDTO> userData){
         mUserList = userData;
     }
 
-    public  List<UserListRes.UserData> getData() {
+    public  List<UserDTO> getData() {
         return mUserList;
     }
 

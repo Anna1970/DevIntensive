@@ -7,7 +7,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -19,7 +18,6 @@ import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.data.storage.models.UserDTO;
 import com.softdesign.devintensive.ui.adapters.RepositoriesAdapter;
 import com.softdesign.devintensive.util.ConstantManager;
-import com.softdesign.devintensive.util.Helper;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
