@@ -181,7 +181,12 @@
         <item name="android:layout_height">@dimen/spacing_middle_48</item>
     </style>
 
-    <style name="auth_button">
+    <!--ToolBar-->
+
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
     </style>
 
 </resources>

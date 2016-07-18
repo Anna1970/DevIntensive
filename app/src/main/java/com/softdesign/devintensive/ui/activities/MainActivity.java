@@ -322,20 +322,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         ImageView userAvatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.avatar);
 
-        //Helper.setupHeaderDrawerImage(this,navigationView, BitmapFactory.decodeResource(getResources(), R.drawable.avatar));
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 Helper.showSnackbar(mCoordinatorLayout,item.getTitle().toString());
                 item.setChecked(true);
                 mNavigationDrawer.closeDrawer(GravityCompat.START);
+
+                switch (item.getItemId()){
+                    case R.id.user_profile_menu:
+                        break;
+                    case R.id.team_menu:
+                        Intent userListActivity = new Intent(MainActivity.this, UserListActivity.class);
+                        startActivity(userListActivity);
+                        break;
+                }
                 return false;
             }
         });
 
         Picasso.with(this)
                 .load(mDataManager.getPreferencesManager().loadUserAvatar())
+                .resize(this.getResources().getDimensionPixelSize(R.dimen.size_avatar_60),
+                        this.getResources().getDimensionPixelSize(R.dimen.size_avatar_60))
                 .placeholder(R.drawable.avatar)
                 .transform(new RoundedAvatarDrawable())
                 .into(userAvatar);
