@@ -383,11 +383,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void changeEditMode(int mode) {
         if (mode == 1) {
             mFab.setImageResource(R.drawable.ic_done_black_24dp);
-            /*for (EditText userValue : mUserInfoViews) {
-                userValue.setEnabled(true);
-                userValue.setFocusable(true);
-                userValue.setFocusableInTouchMode(true);
-            }*/
+
             ButterKnife.apply(mUserInfoViews,Enabled,true);
             /*Устанавливаем фокус на поле с номером телефона и показываем клавиатуру*/
             mUserPhone.requestFocus();

@@ -13,9 +13,9 @@ public class UserListRes {
     private boolean success;
     @SerializedName("data")
     @Expose
-    private List<User> data = new ArrayList<User>();
+    private List<UserData> data = new ArrayList<UserData>();
 
-    public List<User> getData() {
+    public List<UserData> getData() {
         return data;
     }
 
@@ -64,5 +64,7 @@ public class UserListRes {
         public String getFullName() {
             return firstName + " " + secondName;
         }
+
+        public String getId(){return  id;}
     }
 }
