@@ -2,13 +2,16 @@
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/width_match_parent_height_wrap_content"
+    style="@style/width_match_parent_height_match_parent"
     android:id="@+id/nested_scroll"
+    android:layout_marginTop="@dimen/spacing_large_56"
+    android:layout_marginBottom="@dimen/spacing_normal_size_28"
+    android:layout_gravity="top"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <!--android:layout_marginTop="@dimen/spacing_larger_72"-->
 
     <LinearLayout
         style="@style/width_match_parent_height_wrap_content"
-        android:layout_marginTop="@dimen/size_lager_80"
         android:paddingTop="@dimen/spacing_medial_16"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:orientation="vertical">
@@ -17,8 +20,7 @@
             style="@style/liner_layout_list">
             <ImageView
                 style="@style/icon.left"
-                android:src="@drawable/ic_github_box"
-                />
+                android:src="@drawable/ic_github_box"/>
 
             <ListView
                 android:id="@+id/repositories_list"
@@ -55,8 +57,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <View
-            style="@style/view_list"/>
+        <View style="@style/view_list"/>
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -22,18 +22,23 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ProfileUserActivity extends BaseActivity {
 
     private static final String TAG = ConstantManager.TAG_PREFIX + "ProfileUser";
 
-    private Toolbar mToolbar;
-    private ImageView mProfileImage;
-    private EditText mUserBio;
-    private TextView mUserRating, mUserCodeLines, mUserProjects;
-    private CollapsingToolbarLayout mCollapsingToolbarLayout;
-    private CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.user_photo_img) ImageView mProfileImage;
+    @BindView(R.id.bio_et) EditText mUserBio;
+    @BindView(R.id.rating) TextView mUserRating;
+    @BindView(R.id.strings_count) TextView mUserCodeLines;
+    @BindView(R.id.projects_count) TextView mUserProjects;
+    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @BindView(R.id.main_coordinator_container) CoordinatorLayout mCoordinatorLayout;
 
-    private ListView mRepoListView;
+    @BindView(R.id.repositories_list) ListView mRepoListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,23 +46,10 @@ public class ProfileUserActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_user);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mProfileImage = (ImageView) findViewById(R.id.user_photo_img);
-        mUserBio = (EditText) findViewById(R.id.bio_et);
-        mUserRating = (TextView) findViewById(R.id.rating);
-        mUserCodeLines = (TextView) findViewById(R.id.strings_count);
-        mUserProjects = (TextView) findViewById(R.id.projects_count);
-        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_coordinator_container);
-
-        mRepoListView = (ListView) findViewById(R.id.repositories_list);
-
-        showProgress();
+        ButterKnife.bind(this);
 
         setupToolbar();
         initProfileData();
-
-        hideProgress();
 
     }
 
@@ -103,11 +95,12 @@ public class ProfileUserActivity extends BaseActivity {
 
         Picasso.with(this)
                 .load(userDTO.getPhoto())
-                .resize(this.getResources().getDimensionPixelSize(R.dimen.placeholder_photo_size_90),
-                        this.getResources().getDimensionPixelSize(R.dimen.placeholder_photo_size_90))
+                /*.resize(this.getResources().getDimensionPixelSize(R.dimen.placeholder_photo_size_90),
+                        this.getResources().getDimensionPixelSize(R.dimen.placeholder_photo_size_90))*/
+                .fit()
+                .error(R.drawable.user_bg)
                 .centerCrop()
                 .placeholder(R.drawable.user_bg)
-                .error(R.drawable.user_bg)
                 .into(mProfileImage);
     }
 }

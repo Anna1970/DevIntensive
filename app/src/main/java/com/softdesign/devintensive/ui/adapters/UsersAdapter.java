@@ -1,7 +1,9 @@
 package com.softdesign.devintensive.ui.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,31 +11,32 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.softdesign.devintensive.R;
-import com.softdesign.devintensive.data.storage.models.UserDTO;
+import com.softdesign.devintensive.data.managers.DataManager;
+import com.softdesign.devintensive.data.storage.models.UserDb;
 import com.softdesign.devintensive.ui.views.AspectRatioImageView;
-import com.squareup.picasso.Picasso;
+import com.softdesign.devintensive.util.ConstantManager;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder>{
 
+    private static final String TAG = ConstantManager.TAG_PREFIX + " UserAdapter";
     private Context mContext;
-    private List<UserDTO> mUsers, mUserBackup;
+    private List<UserDb> mUsers;
     private UserViewHolder.CustomClickListener mCustomClickListener;
 
-    public UsersAdapter(List<UserDTO> users, UserViewHolder.CustomClickListener customClickListener){
+    public UsersAdapter(List<UserDb> users, UserViewHolder.CustomClickListener customClickListener){
         mUsers = users;
-        mUserBackup = new ArrayList<>();
-        mUserBackup.addAll(mUsers);
         this.mCustomClickListener = customClickListener;
     }
 
-    public void setUsers(List<UserDTO> users){
+    public void setUsers(List<UserDb> users){
         mUsers = users;
     }
 
-    public List<UserDTO> getUsers(){
+    public List<UserDb> getUsers(){
         return mUsers;
     }
 
@@ -45,26 +48,57 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     }
 
     @Override
-    public void onBindViewHolder(UsersAdapter.UserViewHolder holder, int position) {
-       UserDTO user = mUsers.get(position);
+    public void onBindViewHolder(final UsersAdapter.UserViewHolder holder, int position) {
+        final UserDb user = mUsers.get(position);
+        final String userPhoto;
 
-        String photo = user.getPhoto();
-
-        if (photo != null && !photo.equals("")) {
-
-            Picasso.with(mContext)
-                    .load(photo)
-                    .resize(mContext.getResources().getDimensionPixelSize(R.dimen.placeholder_photo_size_90),
-                            mContext.getResources().getDimensionPixelSize(R.dimen.placeholder_photo_size_90))
-                    .placeholder(mContext.getResources().getDrawable(R.drawable.user_bg))
-                    .error(mContext.getResources().getDrawable(R.drawable.user_bg))
-                    .into(holder.userPhoto);
-
-            holder.mFullName.setText(user.getFullName());
-            holder.mRating.setText(String.valueOf(user.getRating()));
-            holder.mCodeLines.setText(String.valueOf(user.getCodeLines()));
-            holder.mProjects.setText(String.valueOf(user.getProjects()));
+        if (user.getPhoto().isEmpty()) {
+            userPhoto = "null";
+            Log.e(TAG, "onBindViewHolder: user with name " + user.getFullName()+"has empty photo");
+        } else {
+            userPhoto = user.getPhoto();
         }
+
+        DataManager.getInstance().getPicasso()
+                .load(userPhoto)
+                .error(holder.mDummy)
+                .placeholder(holder.mDummy)
+                .fit()
+                .centerCrop()
+                .networkPolicy(NetworkPolicy.OFFLINE)
+                .into(holder.userPhoto, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d(TAG, " load from cache");
+                    }
+
+                    @Override
+                    public void onError() {
+                        DataManager.getInstance().getPicasso()
+                                .load(userPhoto)
+                                .error(holder.mDummy)
+                                .placeholder(holder.mDummy)
+                                .fit()
+                                .centerCrop()
+                                .into(holder.userPhoto, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        Log.d(TAG, "Could not fetch image");
+                                    }
+                                });
+                    }
+                });
+
+        holder.mFullName.setText(user.getFullName());
+        holder.mRating.setText(String.valueOf(user.getRating()));
+        holder.mCodeLines.setText(String.valueOf(user.getCodeLines()));
+        holder.mProjects.setText(String.valueOf(user.getProjects()));
+
         if (user.getBio() == null || user.getBio().isEmpty()) {
             holder.mBio.setVisibility(View.GONE);
         }
@@ -84,6 +118,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         protected AspectRatioImageView userPhoto;
         protected TextView mFullName, mRating, mCodeLines, mProjects, mBio;
         protected Button mShowMore;
+        protected Drawable mDummy;
 
         private CustomClickListener mListener;
 
@@ -99,6 +134,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
             mBio =(TextView) itemView.findViewById(R.id.bio_txt);
             mShowMore = (Button) itemView.findViewById(R.id.more_info_btn);
 
+            mDummy =userPhoto.getContext().getResources().getDrawable(R.drawable.user_bg);
+
+
             mShowMore.setOnClickListener(this);
         }
 
@@ -113,25 +151,5 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
             void onUserItemClickListener(int position);
         }
 
-    }
-
-    public void setFilter(String text){
-        if (text.isEmpty()){
-
-            mUsers.clear();
-            mUsers.addAll(mUserBackup);
-
-        } else {
-            List<UserDTO> users = new ArrayList<>();
-            for (UserDTO user : mUsers){
-                if (user.getFullName().toLowerCase().contains(text.toLowerCase())){
-                    users.add(user);
-                }
-            }
-            mUsers.clear();
-            mUsers.addAll(users);
-        }
-
-        notifyDataSetChanged();
     }
 }
